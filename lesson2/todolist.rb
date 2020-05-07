@@ -79,10 +79,11 @@ class TodoList
   end
 
   def to_s
-    puts " ---- Today's Todos ---- "
-    todos.each {|todo| puts todo}
+    text = "---- #{title} ----\n"
+    text << @todos.map(&:to_s).join("\n")
+    text
   end
-
+  
   def done?
     todos.all? {|todo| todo.done == true}
   end
@@ -101,7 +102,7 @@ class TodoList
   end
 
   def remove_at(index)
-     todos.delete(item_at(idx))
+     todos.delete(item_at(index))
   end
 
   def mark_done_at(index)
@@ -156,6 +157,3 @@ end
     @list.add(@todo2)
     @list.add(@todo3)
 
-    p @todos == @list.to_a
-    p '---------------------'
-    p @list.to_a
