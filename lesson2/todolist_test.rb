@@ -54,11 +54,11 @@ class TodoListTest < MiniTest::Test
   end
 
   def test_shovel
-    new_todo = Todo.new("Test")
-    @list << new_todo 
-    assert_includes(@todos, new_todo)
+    new_todo = Todo.new("Walk the dog")
+    @list << new_todo
+    assert_includes(@list.to_a, new_todo)
   end
-
+  
   def test_add_alias
     new_todo = Todo.new('Feed the cat')
     @list.add(new_todo)

@@ -156,4 +156,6 @@ end
     @list.add(@todo2)
     @list.add(@todo3)
 
-
+    p @todos == @list.to_a
+    p '---------------------'
+    p @list.to_a
