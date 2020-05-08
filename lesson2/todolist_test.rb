@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start
+
 require 'minitest/autorun'
 require "minitest/reporters"
 Minitest::Reporters.use!
@@ -73,6 +76,11 @@ class TodoListTest < MiniTest::Test
     assert_equal(@list.item_at(0), @todo1)
   end
 
+  def test_mark_done
+    @list.mark_done('Buy milk')
+    assert_equal(true, @todo1.done?)
+  end
+
   def test_mark_done_at
     assert_raises(IndexError) { @list.mark_done_at(5) }
     @list.mark_done_at(1)
@@ -95,6 +103,16 @@ class TodoListTest < MiniTest::Test
     assert_equal(true, @todo3.done?)
   end
 
+  def test_mark_all_undone
+    @list.done!
+    
+    @list.mark_all_undone
+    
+    assert_equal(false, @todo1.done?)
+    assert_equal(false, @todo2.done?)
+    assert_equal(false, @todo3.done?)
+  end
+
   def test_done!
     @list.done!
     assert_equal(true, @todo1.done?)
@@ -103,8 +121,26 @@ class TodoListTest < MiniTest::Test
     assert_equal(true, @list.done?)
   end
 
+  def test_all_done
+    @todo1.done!
+    selection = @list.all_done
+    assert_equal(selection.to_a, [@todo1])
+  end
+
+  def test_all_not_done
+    @todo1.done!
+    @todo2.done!
+    selection = @list.all_not_done
+    assert_equal(selection.to_a, [@todo3])
+  end
+
   def test_remove_at
     assert_raises(IndexError) { @list.remove_at(5) }
+  end
+
+  def test_find_by_title
+    selection = @list.find_by_title('Buy milk')
+    assert_includes(selection.to_a, @todo1)
   end
   
   def test_to_s
